@@ -5,19 +5,16 @@
  $(document).ready(function() {
 
     $("#create").on("click", function() {
-          var json = $.getJSON("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
+          $.get("http://cors-everywhere.herokuapp.com/http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en", function(odgovor) {
+	    var text = odgovor.quoteText;
+	    var author = odgovor.quoteAuthor;
 
-        console.log(json);
+	    $("#quote-text").html(text);
+        $("#quote-author").html(author);
 
-        var quoteText = "";
-        var quoteAuthor = "";
+        $('#twitter').attr('href', 'https://twitter.com/intent/tweet?text=' + text + ' — ' + author);
+        $('#facebook').attr('href', 'http://www.facebook.com/share.php?u=' + text + ' — ' + author);
 
-        quoteText += json.quoteText;
-        quoteAuthor += json.quoteAuthor;
-
-
-        $(".quote-text").html(quoteText);
-     $(".quote-author").html(quoteAuthor);
-  
+        });
     });
-  });
+ });
